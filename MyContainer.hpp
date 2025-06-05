@@ -1,3 +1,4 @@
+//itamarbabai98@gmail.com
 #ifndef MYCONTAINER_HPP 
 #define MYCONTAINER_HPP 
 #include <vector>
@@ -54,6 +55,11 @@ public:
         }
     }
 
+    auto begin() const { return cont.begin(); }
+    auto end() const { return cont.end(); }
+    auto begin() { return cont.begin(); }
+    auto end() { return cont.end(); }
+
     /**
      * @brief Returns the number of elements in the container.
      * @return The size of the container.
@@ -69,6 +75,9 @@ public:
      * @throws std::out_of_range If the index is out of bounds.
      */
     T& operator[](int index){
+        if (index < 0 || index >= cont.size()) {
+            throw std::out_of_range("Index out of range");
+        }
         return cont.at(index);
     }
 
@@ -79,15 +88,15 @@ public:
      * @param container The container to print.
      * @return Reference to the output stream.
      */
-   friend std::ostream& operator<<(std::ostream& os , const MyContainer<T>& container ){
-        os<<"[ ";
-        for (auto it=container.begin();it!=container.end();){
-            os<<*it;
-            if(std::next(it)!=container.end()){
-                os<<" , ";
+    friend std::ostream& operator<<(std::ostream& os , const MyContainer<T>& container ){
+        os << "[ ";
+        for (auto it = container.begin(); it != container.end(); ++it) {
+            if (it != container.begin()) {
+                os << " , ";
             }
+            os << *it;
         }
-        os<<" ]";
+        os << " ]";
         return os;
     }
 
@@ -96,7 +105,7 @@ public:
      * @return An iterator to the first element.
      */
     auto begin_order(){
-        return Order<T>(cont.begin());
+        return Order<T>(cont.begin() ,cont.end());
     }
 
     /**
@@ -104,29 +113,30 @@ public:
      * @return An iterator to the end of the container.
      */
     auto end_order(){
-        return Order<T>(cont.end());
+        return Order<T>(cont.end(), cont.end());
     }
 
     /**
      * @brief Returns a ReverseOrder iterator to the beginning of the container.
      * @return A ReverseOrder iterator to the first element.
      */
-    auto begin_reverse_order(){
-        if (cont.empty()) { // If the container is empty, return an iterator to the end
-        return ReverseOrder<T>(cont.end());
+
+    auto begin_reverse_order() {
+    if (cont.empty()) {
+        return ReverseOrder<T>(cont.end(), cont.end());
     }
-        return ReverseOrder<T>(--cont.end());
+    return ReverseOrder<T>(cont.end() - 1, cont.begin() - 1);
     }
 
     /**
      * @brief Returns a ReverseOrder iterator to the end of the container.
      * @return A ReverseOrder iterator to the end of the container.
      */
-    auto end_reverse_order(){
-        if (cont.empty()) { // If the container is empty, return an iterator to the end
-            return ReverseOrder<T>(cont.end());
-        }
-        return ReverseOrder<T>(--cont.begin());
+    auto end_reverse_order() {
+        if (cont.empty()) {
+        return ReverseOrder<T>(cont.end(), cont.end());
+    }
+    return ReverseOrder<T>(cont.begin() - 1, cont.begin() - 1);
     }
 
 

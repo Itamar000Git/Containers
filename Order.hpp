@@ -1,3 +1,5 @@
+//itamarbabai98@gmail.com
+
 #ifndef ORDER_HPP 
 #define ORDER_HPP 
 #include <vector>
@@ -12,20 +14,26 @@ template <typename T = int>
 class Order{
 
 private:
-   // std::vector<T> cont; //< Internal storage for elements
+  
     typename std::vector<T>::iterator current;
+    typename std::vector<T>::iterator end_iter;
 public:
     /**
      * @brief Constructs an iterator from a vector iterator.
      * @param curr The iterator to start from (usually begin()).
      */
-    Order(typename std::vector<T>::iterator curr) : current(curr) {}
+    Order(typename std::vector<T>::iterator curr ,typename std::vector<T>::iterator end ) : current(curr),end_iter(end) {}
 
     /**
      * @brief Dereference operator.
      * @return Reference to the current element.
      */
-    T& operator*() { return *current; }
+    T& operator*() {
+        if (current == end_iter) {
+        throw std::out_of_range("Dereferencing end iterator");
+        }
+        return *current; 
+    }
 
     /**
      * @brief Moves the iterator to the next element (forward direction).

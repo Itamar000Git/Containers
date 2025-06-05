@@ -1,3 +1,5 @@
+//itamarbabai98@gmail.com
+
 #ifndef SIDE_CROSS_ORDER_HPP 
 #define SIDE_CROSS_ORDER_HPP 
 #include <vector>
@@ -21,6 +23,11 @@ public:
      */
     SideCrossOrder(const std::vector<T>& vec ,size_t start_pos = 0)
             : data(&vec), pos(start_pos) {
+        sorted_indices.clear();
+
+        if (vec.empty()) {
+        return;
+        }
         std::vector<size_t> ascending(vec.size());
         for (size_t i = 0; i < vec.size(); ++i) {// Initialize indices for sorting
                 ascending[i] = i;
@@ -52,7 +59,12 @@ public:
      * @brief Dereference operator.
      * @return Reference to the current element.
      */
-    T& operator*() { return const_cast<T&>((*data)[sorted_indices[pos]]); }    
+    T& operator*() { 
+        if (pos >= sorted_indices.size()) {
+        throw std::out_of_range("Iterator out of range");
+        }
+        return const_cast<T&>((*data)[sorted_indices[pos]]); 
+    }    
    
     /**
      * @brief Moves the iterator to the next element (side cross order).

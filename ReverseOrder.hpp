@@ -1,3 +1,5 @@
+//itamarbabai98@gmail.com
+
 #ifndef REVERSE_ORDER_HPP 
 #define REVERSE_ORDER_HPP 
 #include <vector>
@@ -12,20 +14,26 @@ template <typename T = int>
 class ReverseOrder{
 
 private:
-   // std::vector<T> cont; //< Internal storage for elements
+  
     typename std::vector<T>::iterator current;
+     typename std::vector<T>::iterator end_iter;
 public:
     /**
      * @brief Constructs a reverse iterator from a vector iterator.
      * @param curr The iterator to start from (usually end()-1).
      */
-    ReverseOrder(typename std::vector<T>::iterator curr) : current(curr) {}
+    ReverseOrder(typename std::vector<T>::iterator curr ,typename std::vector<T>::iterator end ) : current(curr) ,end_iter(end){}
 
     /**
      * @brief Dereference operator.
      * @return Reference to the current element.
      */
-    T& operator*() { return *current; }
+    T& operator*() { 
+        if (current == end_iter) {
+        throw std::out_of_range("Dereferencing end iterator");
+        }
+        return *current;
+     }
 
    
     /**
@@ -47,7 +55,7 @@ public:
      * @return True if equal, false otherwise.
      */
     bool operator==(const ReverseOrder& other) const { return current == other.current; }
-
+     
 
 
    

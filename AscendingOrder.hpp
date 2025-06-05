@@ -1,3 +1,4 @@
+//itamarbabai98@gmail.com
 #ifndef ASCENDING_ORDER_HPP 
 #define ASCENDING_ORDER_HPP 
 #include <vector>
@@ -42,7 +43,12 @@ public:
      * @brief Dereference operator.
      * @return Reference to the current element.
      */
-    T& operator*() { return const_cast<T&>((*data)[sorted_indices[pos]]); }    
+    T& operator*() {
+            if (pos >= sorted_indices.size()) {
+            throw std::out_of_range("Iterator out of range");
+        }
+         return const_cast<T&>((*data)[sorted_indices[pos]]); 
+        }    
     /**
      * @brief Moves the iterator to the next element (ascending / descending order).
      * @return Reference to this iterator.

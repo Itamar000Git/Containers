@@ -1,41 +1,39 @@
 #itamarbabai98@gmail.com
 C = g++
-
 HEADERS =MyContainer.hpp doctest.h AscendingOrder.hpp MiddleOutOrder.hpp ReverseOrder.hpp SideCrossOrder.hpp Order.hpp
-Target = main
-TEST_TARGET = Test
+TARGET = main
+TEST_TARGET = test
 FLAGS = -c -g -Wall
 OBJECT = Demo.o
-TEST_OBJ = test.o
+TEST_OBJ = Test.o
 
-$(Target): $(OBJECT)
-	$(C) -Wall -o $(Target) $(OBJECT)
+all: $(TARGET) $(TEST_TARGET)
+
+$(TARGET): $(OBJECT)
+	$(C) -Wall -o $(TARGET) $(OBJECT)
 
 $(TEST_TARGET): $(TEST_OBJ)
 	$(C) -Wall -o $(TEST_TARGET) $(TEST_OBJ)
 
-# MyContainer.o: MyContainer.cpp $(HEADERS)
-# 	$(C) $(FLAGS) MyContainer.cpp -o MyContainer.o
-
 Demo.o: Demo.cpp $(HEADERS)
 	$(C) $(FLAGS) Demo.cpp -o Demo.o
 
-test.o:test.cpp $(HEADERS)
+test.o: test.cpp $(HEADERS)
 	$(C) $(FLAGS) test.cpp -o test.o
 
-test: $(TEST_TARGET)
+Test: $(TEST_TARGET)
 	./$(TEST_TARGET)
 
-Main: $(Target)
-	./$(Target)
+Main: $(TARGET)
+	./$(TARGET)
 
-valgrind: $(Target)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(Target)
+valgrind: $(TARGET)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TARGET)
 
 valgrind_tests: $(TEST_TARGET)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_TARGET)
 
-.PHONY: $(Target) clean
+.PHONY: $(TARGET) clean $(TEST_TARGET) Test Main valgrind valgrind_tests
 
 clean:
-	rm -f $(PATH_CPP)*.o $(Target) $(TEST_TARGET)
+	rm -f *.o $(TARGET) $(TEST_TARGET)

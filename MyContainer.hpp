@@ -8,6 +8,7 @@
 #include "ReverseOrder.hpp"
 #include "AscendingOrder.hpp"
 #include "SideCrossOrder.hpp"
+#include "MiddleOutOrder.hpp"
 
 namespace Containers{
 template <typename T = int>
@@ -172,6 +173,22 @@ public:
      */
      auto end_side_cross_order(){
         return SideCrossOrder<T>(cont,cont.size());
+    }
+
+
+    /**
+     * @brief Returns an iterator for middle out order.
+     * @return An iterator for middle out order.
+     */
+    auto begin_middle_out_order(){
+        return MiddleOutOrder<T>(cont,0);
+    }
+    /**
+     * @brief Returns an iterator for middle out order.
+     * @return An iterator for middle out order.
+     */
+     auto end_middle_out_order(){
+        return MiddleOutOrder<T>(cont,cont.size());
     }
 
 };

@@ -35,6 +35,18 @@ public:
         return *current;
      }
 
+       /**
+     * @brief Dereference operator (const version).
+     * @return Const reference to the current element.
+     */
+    const T& operator*() const {
+        if (current == end_iter) {
+        throw std::out_of_range("Dereferencing end iterator");
+        }
+        return *current;
+    }
+
+
    
     /**
      * @brief Moves the iterator to the previous element (reverse direction).

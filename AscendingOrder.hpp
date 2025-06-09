@@ -48,7 +48,20 @@ public:
             throw std::out_of_range("Iterator out of range");
         }
          return const_cast<T&>((*data)[sorted_indices[pos]]); 
-        }    
+    }
+    
+    /**
+     * @brief Dereference operator (const version).
+     * @return Const reference to the current element.
+     */
+    const T& operator*() const {
+        if (pos >= sorted_indices.size()) {
+            throw std::out_of_range("Iterator out of range");
+        }
+         return const_cast<T&>((*data)[sorted_indices[pos]]); 
+    }
+
+    
     /**
      * @brief Moves the iterator to the next element (ascending / descending order).
      * @return Reference to this iterator.

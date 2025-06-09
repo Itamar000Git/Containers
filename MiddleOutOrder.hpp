@@ -35,8 +35,8 @@ public:
         size_t left = 0;
         size_t right=0;
         if(vec.size() %2 ==0){
-            left = vec.size() / 2 - 1; // For even size, start from the middle left
-            right = vec.size() / 2; // For even size, start from the middle right
+            left = vec.size() / 2; // For even size, start from the middle left
+            right = vec.size() / 2+1; // For even size, start from the middle right
         } else {
             left = vec.size() / 2; // For odd size, start from the middle
             right = vec.size() / 2 + 1; // For odd size, also start from the middle
@@ -65,6 +65,7 @@ public:
         }
        
     }
+
   
     /**
      * @brief Dereference operator.
@@ -75,7 +76,18 @@ public:
         throw std::out_of_range("Iterator out of range");
     }
         return const_cast<T&>((*data)[sorted_indices[pos]]); 
-    }    
+    } 
+    
+    /**
+     * @brief Dereference operator (const version).
+     * @return Const reference to the current element.
+     */
+    const T& operator*() const {
+        if (pos >= sorted_indices.size()) {
+        throw std::out_of_range("Iterator out of range");
+    }
+        return (*data)[sorted_indices[pos]];
+    }   
    
     /**
      * @brief Moves the iterator to the next element (middle out order).

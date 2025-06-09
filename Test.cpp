@@ -4,7 +4,7 @@
 #include "doctest.h"
 #include "MyContainer.hpp"
 
-    using namespace Containers;
+using namespace Containers;
 
 TEST_CASE("Mycontainer Tests") {
     //using namespace Containers;
@@ -240,7 +240,7 @@ TEST_CASE("Mycontainer Tests") {
  * This case tests adding duplicate elements
  * This case tests removing all elements appearing multiple times and asked to remove one of them
  */
-TEST_CASE("Check Order Iterators") {
+TEST_CASE("Check Order Iterators integer") {
 
     MyContainer<int> container;
     container.addElement(7);
@@ -311,6 +311,8 @@ TEST_CASE("Check Order Iterators") {
         CHECK_THROWS_AS(*it, std::out_of_range); 
     }
 }
+
+
 
 /**
  * @brief Tests Reverse Order Iterator
@@ -684,4 +686,688 @@ TEST_CASE("Cross Middle Out Order"){
      }
 
 }
+
+TEST_CASE("Cross Middle Out Order even"){
+        MyContainer<int> container;
+        container.addElement(7);
+        container.addElement(15);
+        container.addElement(6);
+        container.addElement(1);
+        container.addElement(2);
+        container.addElement(3);
+        container.addElement(4);
+        container.addElement(5);
+        
+
+    SUBCASE("Middle Out Order ") {
+        auto it = container.begin_middle_out_order();
+         CHECK(*it == 2);
+         ++it;
+         CHECK(*it == 1);
+         ++it;
+         CHECK(*it == 3);
+         ++it;
+         CHECK(*it == 6);
+         ++it;
+         CHECK(*it == 4);
+         ++it;
+         CHECK(*it == 15);
+         ++it;
+         CHECK(*it == 5);
+         ++it;
+         CHECK(*it == 7);
+         ++it;
+        CHECK(it == container.end_middle_out_order());
+    }
+    /**
+     * @brief Tests Middle Out Order Iterator with empty container
+     * This case tests the middle out order iterator with an empty container
+     */
+    SUBCASE("Middle Out Order Empty") {
+         MyContainer<int> empty_container;
+         auto it = empty_container.begin_middle_out_order();
+         CHECK(it == empty_container.end_middle_out_order());
+     }
+    /**
+     * @brief Tests Middle Out Order Iterator with one element
+     * This case tests the middle out order iterator with a container containing one element
+     */
+    SUBCASE("Middle Out Order one element") {
+         MyContainer<int> one_element_container;
+         one_element_container.addElement(42);
+         auto it = one_element_container.begin_middle_out_order();
+         CHECK(*it == 42);
+         ++it;
+         CHECK(it == one_element_container.end_middle_out_order());
+     }
+    /**
+     * @brief Tests Middle Out Order Iterator with dereference after end
+     * This case tests dereferencing after the end of the middle out order iterator
+     * It should throw an exception
+     */
+    SUBCASE("Dereference after end throws exception") {
+         MyContainer<int> container;
+         container.addElement(1);
+         auto it = container.begin_middle_out_order();
+         ++it; 
+         CHECK(it == container.end_middle_out_order());
+         CHECK_THROWS_AS(*it, std::out_of_range); 
+     }
+
+}
+
+TEST_CASE("Check Order Iterators double") {
+    MyContainer<double> container;
+    container.addElement(7.5);
+    container.addElement(-5.2);
+    container.addElement(3.1);
+    container.addElement(0.0);
+    container.addElement(10.8);
+    container.addElement(15.6);
+    container.addElement(6.3);
+    container.addElement(1.4);
+    container.addElement(2.9);
+
+    SUBCASE("Regular Order Double") {
+        auto it = container.begin_order();
+        CHECK(*it == 7.5);
+        ++it;
+        CHECK(*it == -5.2);
+        ++it;
+        CHECK(*it == 3.1);
+        ++it;
+        CHECK(*it == 0.0);
+        ++it;
+        CHECK(*it == 10.8);
+        ++it;
+        CHECK(*it == 15.6);
+        ++it;
+        CHECK(*it == 6.3);
+        ++it;   
+        CHECK(*it == 1.4);
+        ++it;
+        CHECK(*it == 2.9);
+        ++it;
+        CHECK(it == container.end_order());
+    }
+
+    SUBCASE("Dereference after end throws exception Double") {
+        MyContainer<double> container;
+        container.addElement(1.1);
+        auto it = container.begin_order();
+        ++it; 
+        CHECK(it == container.end_order());
+        CHECK_THROWS_AS(*it, std::out_of_range); 
+    }
+
+    SUBCASE("Regular Order Empty Double") {
+        MyContainer<double> empty_container;
+        auto it = empty_container.begin_order();
+        CHECK(it == empty_container.end_order());
+    }
+
+    SUBCASE("Regular Order one element Double") {
+        MyContainer<double> one_element_container;
+        one_element_container.addElement(42.0);
+        auto it = one_element_container.begin_order();
+        CHECK(*it == 42.0);
+        ++it;
+        CHECK(it == one_element_container.end_order());
+    }
+
+}
+
+TEST_CASE("Reserce order with double"){
+    MyContainer<double> container;
+    container.addElement(7.5);
+    container.addElement(-5.2);
+    container.addElement(3.1);
+    container.addElement(0.0);
+    container.addElement(10.8);
+    container.addElement(15.6);
+    container.addElement(6.3);
+    container.addElement(1.4);
+    container.addElement(2.9);
+
+    SUBCASE("Reverse Order Double") {
+        auto it = container.begin_reverse_order();
+        CHECK(*it == 2.9);
+        ++it;
+        CHECK(*it == 1.4);
+        ++it;
+        CHECK(*it == 6.3);
+        ++it;   
+        CHECK(*it == 15.6);
+        ++it;
+        CHECK(*it == 10.8);
+        ++it;
+        CHECK(*it == 0.0);
+        ++it;
+        CHECK(*it == 3.1);
+        ++it;
+        CHECK(*it == -5.2);
+        ++it;
+        CHECK(*it == 7.5);
+        ++it;
+        CHECK(it == container.end_reverse_order());
+    }
+
+    SUBCASE("Reverse Order Empty Double") {
+        MyContainer<double> empty_container;
+        auto it = empty_container.begin_reverse_order();
+        CHECK(it == empty_container.end_reverse_order());
+    }
+
+    SUBCASE("Reverse Order one element Double") {
+        MyContainer<double> one_element_container;
+        one_element_container.addElement(42.0);
+        auto it = one_element_container.begin_reverse_order();
+        CHECK(*it == 42.0);
+        ++it;
+        CHECK(it == one_element_container.end_reverse_order());
+    }
+}
+
+TEST_CASE("Ascending Order with double"){
+    MyContainer<double> container;
+    container.addElement(7.5);
+    container.addElement(-5.2);
+    container.addElement(3.1);
+    container.addElement(0.0);
+    container.addElement(10.8);
+    container.addElement(15.6);
+    container.addElement(6.3);
+    container.addElement(1.4);
+    container.addElement(2.9);
+
+    SUBCASE("Ascending Order Double") {
+        auto it = container.begin_ascending_order();
+        CHECK(*it == -5.2);
+        ++it;
+        CHECK(*it == 0.0);
+        ++it;
+        CHECK(*it == 1.4);
+        ++it;
+        CHECK(*it == 2.9);
+        ++it;
+        CHECK(*it == 3.1);
+        ++it;
+        CHECK(*it == 6.3);
+        ++it;
+        CHECK(*it == 7.5);
+        ++it;
+        CHECK(*it == 10.8);
+        ++it;
+        CHECK(*it == 15.6);
+        ++it;
+        CHECK(it == container.end_ascending_order());
+    }
+
+    SUBCASE("Ascending Order Empty Double") {
+        MyContainer<double> empty_container;
+        auto it = empty_container.begin_ascending_order();
+        CHECK(it == empty_container.end_ascending_order());
+    }
+
+    SUBCASE("Ascending Order one element Double") {
+        MyContainer<double> one_element_container;
+        one_element_container.addElement(42.0);
+        auto it = one_element_container.begin_ascending_order();
+        CHECK(*it == 42.0);
+        ++it;
+        CHECK(it == one_element_container.end_ascending_order());
+    }
+}
+
+TEST_CASE("Descending Order with double") {
+    MyContainer<double> container;
+    container.addElement(7.5);
+    container.addElement(-5.2);
+    container.addElement(3.1);
+    container.addElement(0.0);
+    container.addElement(10.8);
+    container.addElement(15.6);
+    container.addElement(6.3);
+    container.addElement(1.4);
+    container.addElement(2.9);
+
+    SUBCASE("Descending Order Double") {
+        auto it = container.begin_descending_order();
+        CHECK(*it == 15.6);
+        ++it;
+        CHECK(*it == 10.8);
+        ++it;
+        CHECK(*it == 7.5);
+        ++it;
+        CHECK(*it == 6.3);
+        ++it;   
+        CHECK(*it == 3.1);
+        ++it;
+        CHECK(*it == 2.9);
+        ++it;
+        CHECK(*it == 1.4);
+        ++it;
+        CHECK(*it == 0.0);
+        ++it;
+        CHECK(*it == -5.2);
+        ++it;
+        CHECK(it == container.end_descending_order());
+    }
+
+    SUBCASE("Descending Order Empty Double") {
+        MyContainer<double> empty_container;
+        auto it = empty_container.begin_descending_order();
+        CHECK(it == empty_container.end_descending_order());
+    }
+
+    SUBCASE("Descending Order one element Double") {
+        MyContainer<double> one_element_container;
+        one_element_container.addElement(42.0);
+        auto it = one_element_container.begin_descending_order();
+        CHECK(*it == 42.0);
+        ++it;
+        CHECK(it == one_element_container.end_descending_order());
+    }
+}
+
+TEST_CASE("Cross Side Order with double") {
+    MyContainer<double> container;
+    container.addElement(7.5);
+    container.addElement(15.6);
+    container.addElement(6.3);
+    container.addElement(1.4);
+    container.addElement(2.9);
+    container.addElement(3.1);
+    container.addElement(4.0);
+    container.addElement(5.5);
+    container.addElement(8.2);
+
+    SUBCASE("Side Cross Order Double") {
+        auto it = container.begin_side_cross_order();
+        CHECK(*it == 1.4);
+        ++it;
+        CHECK(*it == 15.6);
+        ++it;
+        CHECK(*it == 2.9);
+        ++it;
+        CHECK(*it == 8.2);
+        ++it;
+        CHECK(*it == 3.1);
+        ++it;
+        CHECK(*it == 7.5);
+        ++it;
+        CHECK(*it == 4.0);
+        ++it;
+        CHECK(*it == 6.3);
+        ++it;
+        CHECK(*it == 5.5);
+        ++it;
+        CHECK(it == container.end_side_cross_order());
+    }
+
+    SUBCASE("Side Cross Order Empty Double") {
+         MyContainer<double> empty_container;
+         auto it = empty_container.begin_side_cross_order();
+         CHECK(it == empty_container.end_side_cross_order());
+     }
+
+    SUBCASE("Side Cross Order one element Double") {
+         MyContainer<double> one_element_container;
+         one_element_container.addElement(42.0);
+         auto it = one_element_container.begin_side_cross_order();
+         CHECK(*it == 42.0);
+         ++it;
+         CHECK(it == one_element_container.end_side_cross_order());
+     }
+
+    SUBCASE("Dereference after end throws exception Double") {
+         MyContainer<double> container;
+         container.addElement(1.1);
+         auto it = container.begin_side_cross_order();
+         ++it; 
+         CHECK(it == container.end_side_cross_order());
+         CHECK_THROWS_AS(*it, std::out_of_range); 
+     }
+}
+
+TEST_CASE("Cross Middle Out Order with double") {
+    MyContainer<double> container;
+    container.addElement(7.5);
+    container.addElement(15.6);
+    container.addElement(6.3);
+    container.addElement(1.4);
+    container.addElement(2.9);
+    container.addElement(3.1);
+    container.addElement(4.0);
+    container.addElement(5.5);
+    container.addElement(8.2);
+
+    SUBCASE("Middle Out Order Double") {
+        auto it = container.begin_middle_out_order();
+        CHECK(*it == 2.9);
+        ++it;
+        CHECK(*it == 1.4);
+        ++it;
+        CHECK(*it == 3.1);
+        ++it;
+        CHECK(*it == 6.3);
+        ++it;
+        CHECK(*it == 4.0);
+        ++it;
+        CHECK(*it == 15.6);
+        ++it;
+        CHECK(*it == 5.5);
+        ++it;
+        CHECK(*it == 7.5);
+        ++it;
+        CHECK(*it == 8.2);
+        ++it;
+        CHECK(it == container.end_middle_out_order());
+    }
+
+    SUBCASE("Middle Out Order Empty Double") {
+         MyContainer<double> empty_container;
+         auto it = empty_container.begin_middle_out_order();
+         CHECK(it == empty_container.end_middle_out_order());
+     }
+
+    SUBCASE("Middle Out Order one element Double") {
+         MyContainer<double> one_element_container;
+         one_element_container.addElement(42.0);
+         auto it = one_element_container.begin_middle_out_order();
+         CHECK(*it == 42.0);
+         ++it;
+         CHECK(it == one_element_container.end_middle_out_order());
+     }
+
+    SUBCASE("Dereference after end throws exception Double") {
+         MyContainer<double> container;
+         container.addElement(1.1);
+         auto it = container.begin_middle_out_order();
+         ++it; 
+         CHECK(it == container.end_middle_out_order());
+         CHECK_THROWS_AS(*it, std::out_of_range); 
+     }
+}
+
+
+TEST_CASE("Check Order Iterators string") {
+    MyContainer<std::string> container;
+    container.addElement("Hello");
+    container.addElement("World");
+    container.addElement("!");
+    container.addElement("C++");
+    container.addElement("is");
+    container.addElement("awesome");
+
+    SUBCASE("Regular Order String") {
+        auto it = container.begin_order();
+        CHECK(*it == "Hello");
+        ++it;
+        CHECK(*it == "World");
+        ++it;
+        CHECK(*it == "!");
+        ++it;
+        CHECK(*it == "C++");
+        ++it;
+        CHECK(*it == "is");
+        ++it;
+        CHECK(*it == "awesome");
+        ++it;
+        CHECK(it == container.end_order());
+    }
+
+    SUBCASE("Dereference after end throws exception String") {
+        MyContainer<std::string> container;
+        container.addElement("Test");
+        auto it = container.begin_order();
+        ++it; 
+        CHECK(it == container.end_order());
+        CHECK_THROWS_AS(*it, std::out_of_range); 
+    }
+
+    SUBCASE("Regular Order Empty String") {
+        MyContainer<std::string> empty_container;
+        auto it = empty_container.begin_order();
+        CHECK(it == empty_container.end_order());
+    }
+
+    SUBCASE("Regular Order one element String") {
+        MyContainer<std::string> one_element_container;
+        one_element_container.addElement("SingleElement");
+        auto it = one_element_container.begin_order();
+        CHECK(*it == "SingleElement");
+        ++it;
+        CHECK(it == one_element_container.end_order());
+    }
+}
+
+TEST_CASE("Reverse Order with string") {
+    MyContainer<std::string> container;
+    container.addElement("Hello");
+    container.addElement("World");
+    container.addElement("!");
+    container.addElement("C++");
+    container.addElement("is");
+    container.addElement("awesome");
+
+    SUBCASE("Reverse Order String") {
+        auto it = container.begin_reverse_order();
+        CHECK(*it == "awesome");
+        ++it;
+        CHECK(*it == "is");
+        ++it;
+        CHECK(*it == "C++");
+        ++it;
+        CHECK(*it == "!");
+        ++it;
+        CHECK(*it == "World");
+        ++it;
+        CHECK(*it == "Hello");
+        ++it;
+        CHECK(it == container.end_reverse_order());
+    }
+
+    SUBCASE("Reverse Order Empty String") {
+        MyContainer<std::string> empty_container;
+        auto it = empty_container.begin_reverse_order();
+        CHECK(it == empty_container.end_reverse_order());
+    }
+
+    SUBCASE("Reverse Order one element String") {
+        MyContainer<std::string> one_element_container;
+        one_element_container.addElement("SingleElement");
+        auto it = one_element_container.begin_reverse_order();
+        CHECK(*it == "SingleElement");
+        ++it;
+        CHECK(it == one_element_container.end_reverse_order());
+    }
+}
+
+TEST_CASE("Ascending Order with string") {
+    MyContainer<std::string> container;
+    container.addElement("a");
+    container.addElement("b");
+    container.addElement("c");
+    container.addElement("d");
+    container.addElement("e");
+    container.addElement("f");
     
+
+    SUBCASE("Ascending Order String") {
+        auto it = container.begin_ascending_order();
+        CHECK(*it == "a");
+        ++it;
+        CHECK(*it == "b");
+        ++it;
+        CHECK(*it == "c");
+        ++it;
+        CHECK(*it == "d");
+        ++it;
+        CHECK(*it == "e");
+        ++it;
+        CHECK(*it == "f");
+        ++it;
+        CHECK(it == container.end_ascending_order());
+    }
+
+    SUBCASE("Ascending Order Empty String") {
+        MyContainer<std::string> empty_container;
+        auto it = empty_container.begin_ascending_order();
+        CHECK(it == empty_container.end_ascending_order());
+    }
+
+    SUBCASE("Ascending Order one element String") {
+        MyContainer<std::string> one_element_container;
+        one_element_container.addElement("SingleElement");
+        auto it = one_element_container.begin_ascending_order();
+        CHECK(*it == "SingleElement");
+        ++it;
+        CHECK(it == one_element_container.end_ascending_order());
+    }
+}
+
+TEST_CASE("Descending Order with string") {
+    MyContainer<std::string> container;
+    container.addElement("a");
+    container.addElement("b");
+    container.addElement("c");
+    container.addElement("d");
+    container.addElement("e");
+    container.addElement("f");
+
+    SUBCASE("Descending Order String") {
+        auto it = container.begin_descending_order();
+        CHECK(*it == "f");
+        ++it;
+        CHECK(*it == "e");
+        ++it;
+        CHECK(*it == "d");
+        ++it;
+        CHECK(*it == "c");
+        ++it;
+        CHECK(*it == "b");
+        ++it;
+        CHECK(*it == "a");
+        ++it;
+        CHECK(it == container.end_descending_order());
+    }
+
+    SUBCASE("Descending Order Empty String") {
+        MyContainer<std::string> empty_container;
+        auto it = empty_container.begin_descending_order();
+        CHECK(it == empty_container.end_descending_order());
+    }
+
+    SUBCASE("Descending Order one element String") {
+        MyContainer<std::string> one_element_container;
+        one_element_container.addElement("SingleElement");
+        auto it = one_element_container.begin_descending_order();
+        CHECK(*it == "SingleElement");
+        ++it;
+        CHECK(it == one_element_container.end_descending_order());
+    }
+}
+
+TEST_CASE("Cross Side Order with string") {
+    MyContainer<std::string> container;
+    container.addElement("a");
+    container.addElement("b");
+    container.addElement("c");
+    container.addElement("d");
+    container.addElement("e");
+    container.addElement("f");
+
+    SUBCASE("Side Cross Order String") {
+        auto it = container.begin_side_cross_order();
+        CHECK(*it == "a");
+        ++it;
+        CHECK(*it == "f");
+        ++it;
+        CHECK(*it == "b");
+        ++it;
+        CHECK(*it == "e");
+        ++it;
+        CHECK(*it == "c");
+        ++it;
+        CHECK(*it == "d");
+        ++it;
+        CHECK(it == container.end_side_cross_order());
+    }
+
+    SUBCASE("Side Cross Order Empty String") {
+         MyContainer<std::string> empty_container;
+         auto it = empty_container.begin_side_cross_order();
+         CHECK(it == empty_container.end_side_cross_order());
+     }
+
+    SUBCASE("Side Cross Order one element String") {
+         MyContainer<std::string> one_element_container;
+         one_element_container.addElement("SingleElement");
+         auto it = one_element_container.begin_side_cross_order();
+         CHECK(*it == "SingleElement");
+         ++it;
+         CHECK(it == one_element_container.end_side_cross_order());
+     }
+
+    SUBCASE("Dereference after end throws exception String") {
+         MyContainer<std::string> container;
+         container.addElement("Test");
+         auto it = container.begin_side_cross_order();
+         ++it; 
+         CHECK(it == container.end_side_cross_order());
+         CHECK_THROWS_AS(*it, std::out_of_range); 
+     }
+}
+
+TEST_CASE("Cross Middle Out Order with string") {
+    MyContainer<std::string> container;
+    container.addElement("a");
+    container.addElement("b");
+    container.addElement("c");
+    container.addElement("d");
+    container.addElement("e");
+    container.addElement("f");
+
+    SUBCASE("Middle Out Order String") {
+        auto it = container.begin_middle_out_order();
+        CHECK(*it == "d");
+        ++it;
+        CHECK(*it == "c");
+        ++it;
+        CHECK(*it == "e");
+        ++it;
+        CHECK(*it == "b");
+        ++it;
+        CHECK(*it == "f");
+        ++it;
+        CHECK(*it == "a");
+        ++it;
+
+        CHECK(it == container.end_middle_out_order());
+    }
+
+    SUBCASE("Middle Out Order Empty String") {
+         MyContainer<std::string> empty_container;
+         auto it = empty_container.begin_middle_out_order();
+         CHECK(it == empty_container.end_middle_out_order());
+     }
+
+    SUBCASE("Middle Out Order one element String") {
+         MyContainer<std::string> one_element_container;
+         one_element_container.addElement("SingleElement");
+         auto it = one_element_container.begin_middle_out_order();
+         CHECK(*it == "SingleElement");
+         ++it;
+         CHECK(it == one_element_container.end_middle_out_order());
+     }
+
+    SUBCASE("Dereference after end throws exception String") {
+         MyContainer<std::string> container;
+         container.addElement("Test");
+         auto it = container.begin_middle_out_order();
+         ++it; 
+         CHECK(it == container.end_middle_out_order());
+         CHECK_THROWS_AS(*it, std::out_of_range); 
+     }
+}
